@@ -1,7 +1,7 @@
-package Controller;
+package controller;
 
-import Model.Product;
-import Service.ProductService;
+import model.Product;
+import service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

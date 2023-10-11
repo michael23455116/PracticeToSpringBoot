@@ -1,6 +1,6 @@
 package rowmapper;
 
-import Model.Product;
+import model.Product;
 import constant.ProductCategory;
 import org.springframework.jdbc.core.RowMapper;
 

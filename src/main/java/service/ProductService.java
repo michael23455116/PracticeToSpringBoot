@@ -1,6 +1,6 @@
-package Service;
+package service;
 
-import Model.Product;
+import model.Product;
 
 public interface ProductService {
     Product getProductById(Integer productId);
