@@ -1,5 +1,6 @@
 package Model;
 
+import constant.ProductCategory;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -9,7 +10,7 @@ import java.sql.Date;
 public class Product {
     private Integer product_id;
     private String product_name;
-    private String category;
+    private ProductCategory category;
     private String image_url;
     private BigDecimal price;
     private BigDecimal stock;
