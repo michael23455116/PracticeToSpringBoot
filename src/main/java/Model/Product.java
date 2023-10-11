@@ -8,13 +8,13 @@ import java.sql.Date;
 
 @Data
 public class Product {
-    private Integer product_id;
-    private String product_name;
+    private Integer productId;
+    private String productName;
     private ProductCategory category;
-    private String image_url;
+    private String imageUrl;
     private BigDecimal price;
     private BigDecimal stock;
     private String description;
-    private Date created_date;
-    private Date last_modified_date;
+    private Date createdDate;
+    private Date lastModifiedDate;
 }
