@@ -1,7 +1,7 @@
-package Controller;
+package controller;
 
-import Model.Product;
-import Service.ProductService;
+import model.Product;
+import service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,8 @@ public class ProductController {
     @GetMapping("/products/{productId}")
     public ResponseEntity<Product> getProduct(@PathVariable Integer productId) {
         Product product = productService.getProductById(productId);
-        if (product != null) {
+
+        if (product!=null) {
             return ResponseEntity.status(HttpStatus.OK).body(product);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

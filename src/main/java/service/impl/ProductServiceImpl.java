@@ -1,8 +1,8 @@
-package Service.impl;
+package service.impl;
 
-import Dao.ProductDao;
-import Model.Product;
-import Service.ProductService;
+import dao.ProductDao;
+import model.Product;
+import service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
