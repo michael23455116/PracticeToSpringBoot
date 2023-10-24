@@ -5,6 +5,7 @@ import com.example.ecommerce.dto.ProductQueryParameter;
 import com.example.ecommerce.dto.ProductRequest;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.service.ProductService;
+import com.example.ecommerce.util.Page;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -24,7 +25,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>>getProducts(
+    public ResponseEntity<Page<Product>>getProducts(
             //查詢條件
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search,
@@ -44,8 +45,18 @@ public class ProductController {
         productQueryParameter.setLimit(limit);
         productQueryParameter.setOffset(offset);
 
+        //取得Products
         List<Product> productList = productService.getProducts(productQueryParameter);
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+        //取得Products總數
+        Integer total = productService.countProduct(productQueryParameter);
+        //分頁
+        Page<Product> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(total);
+        page.setResult(productList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
     @GetMapping("/products/{productId}")

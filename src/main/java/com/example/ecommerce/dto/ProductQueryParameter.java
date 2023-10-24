@@ -11,4 +11,5 @@ public class ProductQueryParameter {
     private String sort;
     private Integer limit;
     private Integer offset;
+
 }
