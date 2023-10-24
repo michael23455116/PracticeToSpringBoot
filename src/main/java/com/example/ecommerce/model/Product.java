@@ -1,6 +1,6 @@
-package model;
+package com.example.ecommerce.model;
 
-import constant.ProductCategory;
+import com.example.ecommerce.constant.ProductCategory;
 import lombok.Data;
 
 import java.math.BigDecimal;

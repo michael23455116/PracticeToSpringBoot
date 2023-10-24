@@ -1,7 +1,7 @@
-package rowmapper;
+package com.example.ecommerce.rowmapper;
 
-import model.Product;
-import constant.ProductCategory;
+import com.example.ecommerce.constant.ProductCategory;
+import com.example.ecommerce.model.Product;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

@@ -1,4 +1,4 @@
-package constant;
+package com.example.ecommerce.constant;
 
 public enum ProductCategory {
     FOOD,
