@@ -131,7 +131,7 @@ public class ProductDaoImpl implements ProductDao {
         //查詢條件
         if(productQueryParameter.getCategory()!=null){
             sql = sql+ " AND category=:category";
-            map.put("category",productQueryParameter.getCategory().toString());
+            map.put("category",productQueryParameter.getCategory().name());
         }
         if(productQueryParameter.getSearch()!=null){
             sql = sql+" AND product_name LIKE :search";
