@@ -1,15 +1,16 @@
 package com.example.ecommerce.dao.impl;
 
 import com.example.ecommerce.dao.ProductDao;
+import com.example.ecommerce.dto.ProductQueryParameter;
 import com.example.ecommerce.dto.ProductRequest;
 import com.example.ecommerce.model.Product;
+import com.example.ecommerce.rowmapper.ProductRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import com.example.ecommerce.rowmapper.ProductRowMapper;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -23,10 +24,31 @@ public class ProductDaoImpl implements ProductDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public List<Product> getProducts() {
-        String sql = "SELECT product_id,product_name,category,image_url,price,stock,description,created_date,last_modified_date " +
-                "FROM product";
+    public Integer countProduct(ProductQueryParameter productQueryParameter) {
+        String sql = "SELECT count(*) FROM product WHERE 1=1";
+
         Map<String ,Object> map = new HashMap<>();
+
+        sql = addFilteringSql(sql,map,productQueryParameter);
+
+        Integer total = namedParameterJdbcTemplate.queryForObject(sql,map,Integer.class);
+        return total;
+    }
+
+    @Override
+    public List<Product> getProducts(ProductQueryParameter productQueryParameter) {
+        String sql = "SELECT product_id,product_name,category,image_url,price,stock,description,created_date,last_modified_date " +
+                "FROM product WHERE 1=1";
+        Map<String ,Object> map = new HashMap<>();
+        //查詢條件
+        sql = addFilteringSql(sql,map,productQueryParameter);
+        //排序
+        sql = sql+ " ORDER BY "+productQueryParameter.getOrderby()+" "+productQueryParameter.getSort();
+        //分頁
+        sql= sql + " LIMIT :limit OFFSET :offset";
+        map.put("limit",productQueryParameter.getLimit());
+        map.put("offset",productQueryParameter.getOffset());
+
         List<Product> productList = namedParameterJdbcTemplate.query(sql,map,new ProductRowMapper());
         return  productList;
     }
@@ -103,5 +125,18 @@ public class ProductDaoImpl implements ProductDao {
         Map<String ,Object> map = new HashMap<>();
         map.put("productId",productId);
         namedParameterJdbcTemplate.update(sql,map);
+    }
+
+    public String addFilteringSql(String sql,Map<String ,Object> map,ProductQueryParameter productQueryParameter){
+        //查詢條件
+        if(productQueryParameter.getCategory()!=null){
+            sql = sql+ " AND category=:category";
+            map.put("category",productQueryParameter.getCategory().name());
+        }
+        if(productQueryParameter.getSearch()!=null){
+            sql = sql+" AND product_name LIKE :search";
+            map.put("search","%"+productQueryParameter.getSearch()+"%");
+        }
+        return sql;
     }
 }

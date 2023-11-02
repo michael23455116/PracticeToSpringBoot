@@ -1,9 +1,10 @@
 package com.example.ecommerce.service.impl;
 
 import com.example.ecommerce.dao.ProductDao;
+import com.example.ecommerce.dto.ProductQueryParameter;
 import com.example.ecommerce.dto.ProductRequest;
-import com.example.ecommerce.service.ProductService;
 import com.example.ecommerce.model.Product;
+import com.example.ecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,13 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Override
-    public List<Product> getProducts() {
-       return productDao.getProducts();
+    public Integer countProduct(ProductQueryParameter productQueryParameter) {
+        return productDao.countProduct(productQueryParameter);
+    }
+
+    @Override
+    public List<Product> getProducts(ProductQueryParameter productQueryParameter) {
+        return productDao.getProducts(productQueryParameter);
     }
 
     @Override
