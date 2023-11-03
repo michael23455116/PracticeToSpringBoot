@@ -13,7 +13,7 @@ public class Product {
     private ProductCategory category;
     private String imageUrl;
     private BigDecimal price;
-    private BigDecimal stock;
+    private Integer stock;
     private String description;
     private Date createdDate;
     private Date lastModifiedDate;
