@@ -1,6 +1,7 @@
 package com.example.ecommerce.dao.impl;
 
 import com.example.ecommerce.dao.OrderDao;
+import com.example.ecommerce.dto.OrderQueryParameters;
 import com.example.ecommerce.model.Order;
 import com.example.ecommerce.model.OrderItem;
 import com.example.ecommerce.rowmapper.OrderItemRowMapper;
@@ -22,6 +23,42 @@ import java.util.Map;
 public class OrderDaoImpl implements OrderDao {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    @Override
+    public Integer countOrder(OrderQueryParameters orderQueryParameters) {
+        String sql = "SELECT count(*) FROM `order` WHERE 1=1";
+        Map<String ,Object> map =new HashMap<>();
+        //查詢條件
+        sql = addFilteringSql(sql,map,orderQueryParameters);
+        Integer total = namedParameterJdbcTemplate.queryForObject(sql,map,Integer.class);
+        return total;
+    }
+
+    @Override
+    public List<Order> getOrders(OrderQueryParameters orderQueryParameters) {
+        String sql = "SELECT order_id,user_id,total_amount,created_date,last_modified_date FROM `order` WHERE 1=1";
+        Map<String ,Object> map = new HashMap<>();
+        //查詢條件
+        sql = addFilteringSql(sql,map,orderQueryParameters);
+        //排序
+        sql = sql +" ORDER BY created_date DESC";
+        //分頁
+        sql = sql +" LIMIT :limit OFFSET :offset";
+        map.put("limit",orderQueryParameters.getLimit());
+        map.put("offset",orderQueryParameters.getOffset());
+        List<Order> orderList = namedParameterJdbcTemplate.query(sql,map,new OrderRowMapper());
+        return orderList;
+    }
+
+    private String addFilteringSql(String sql,
+                                   Map<String, Object> map,
+                                   OrderQueryParameters orderQueryParameters) {
+        if (orderQueryParameters.getUserId()!=null){
+            sql = sql +" AND user_id = :userId";
+            map.put("userId",orderQueryParameters.getUserId());
+        }
+        return sql;
+    }
 
     @Override
     public Order getOrderById(Integer orderId) {
