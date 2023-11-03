@@ -4,6 +4,7 @@ import com.example.ecommerce.dao.OrderDao;
 import com.example.ecommerce.dao.ProductDao;
 import com.example.ecommerce.dto.BuyItem;
 import com.example.ecommerce.dto.CreateOrderRequest;
+import com.example.ecommerce.model.Order;
 import com.example.ecommerce.model.OrderItem;
 import com.example.ecommerce.model.Product;
 import com.example.ecommerce.service.OrderService;
@@ -21,6 +22,14 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
     @Autowired
     private ProductDao productDao;
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+        Order order =orderDao.getOrderById(orderId);
+        List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(orderId);
+        order.setOrderItemList(orderItemList);
+        return order;
+    }
 
     @Override
     @Transactional

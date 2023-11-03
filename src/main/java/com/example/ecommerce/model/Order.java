@@ -4,6 +4,8 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
 @Data
 public class Order {
     private Integer orderId;
@@ -11,4 +13,6 @@ public class Order {
     private BigDecimal totalAmount;
     private Date createdDate;
     private Date lastModifiedDate;
+
+    private List<OrderItem> orderItemList;
 }
